@@ -21,9 +21,16 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  // SQL文を実行する準備
+  $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+  // SQLを実行
+  $statement->execute($params);
+  
+  return $statement->fetchAll();
 }
 
 function get_user_cart($db, $user_id, $item_id){
@@ -45,12 +52,20 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  // SQL文を実行する準備
+  $statement = $db->prepare($sql);
+  // SQL文のプレースホルダに値をバインド
+  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+  $statement->bindValue(2, $item_id, PDO::PARAM_INT);
+  // SQLを実行
+  $statement->execute();
+  
+  return $statement->fetch();
 
 }
 
@@ -70,10 +85,19 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+      VALUES(?, ?, ?)
   ";
 
-  return execute_query($db, $sql);
+  // SQL文を実行する準備
+  $statement = $db->prepare($sql);
+  // SQL文のプレースホルダに値をバインド
+  $statement->bindValue(1, $item_id, PDO::PARAM_INT);
+  $statement->bindValue(2, $user_id, PDO::PARAM_INT);
+  $statement->bindValue(3, $amount,  PDO::PARAM_INT);
+  // // SQLを実行
+  // $statement->execute();
+
+  return $statement->execute($params);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
@@ -81,12 +105,18 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql);
+  // SQL文を実行する準備
+  $statement = $db->prepare($sql);
+  // SQL文のプレースホルダに値をバインド
+  $statement->bindValue(1, $amount,   PDO::PARAM_INT);
+  $statement->bindValue(2, $cart_id,  PDO::PARAM_INT);
+
+  return $statement->execute($params);
 }
 
 function delete_cart($db, $cart_id){
@@ -94,11 +124,17 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
+  // SQL文を実行する準備
+  $statement = $db->prepare($sql);
+  // SQL文のプレースホルダに値をバインド
+  $statement->bindValue(1, $cart_id, PDO::PARAM_INT);
+  // // SQLを実行
+  // $statement->execute();
 
-  return execute_query($db, $sql);
+  return $statement->execute($params);
 }
 
 function purchase_carts($db, $carts){
@@ -123,16 +159,23 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
+  
+  // SQL文を実行する準備
+  $statement = $db->prepare($sql);
+  // SQL文のプレースホルダに値をバインド
+  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+  // SQLを実行
+  // $statement->execute();
 
-  execute_query($db, $sql);
+  return $statement->execute($params);
 }
 
 
 function sum_carts($carts){
   $total_price = 0;
-  foreach($carts as $cart){
+  foreach((array)$carts as $cart){
     $total_price += $cart['price'] * $cart['amount'];
   }
   return $total_price;
@@ -156,4 +199,3 @@ function validate_cart_purchase($carts){
   }
   return true;
 }
-
