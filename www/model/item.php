@@ -16,10 +16,18 @@ function get_item($db, $item_id){
     FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
   ";
 
-  return fetch_query($db, $sql);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $item_id, PDO::PARAM_INT);
+  // // SQLを実行
+  // $statement->execute($params);
+
+  return fetch_query($db, $sql, [$item_id]);
+
 }
 
 function get_items($db, $is_open = false){
@@ -82,10 +90,19 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES('{$name}', {$price}, {$stock}, '{$filename}', {$status_value});
+    VALUES(?, ?, ?, ?, ?);
   ";
 
-  return execute_query($db, $sql);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $name,         PDO::PARAM_STR);
+  // $statement->bindValue(2, $price,        PDO::PARAM_INT);
+  // $statement->bindValue(3, $stock,        PDO::PARAM_INT);
+  // $statement->bindValue(4, $filename,     PDO::PARAM_STR);
+  // $statement->bindValue(5, $status_value, PDO::PARAM_INT);
+  // // SQLを実行
+  return execute_query($db, $sql,[$name, $price, $stock, $filename, $status_value]);
 }
 
 function update_item_status($db, $item_id, $status){
@@ -93,13 +110,19 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $status,   PDO::PARAM_INT);
+  // $statement->bindValue(2, $item_id,  PDO::PARAM_INT);
+
+  return execute_query($db, $sql,[$status, $item_id]);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -107,13 +130,19 @@ function update_item_stock($db, $item_id, $stock){
     UPDATE
       items
     SET
-      stock = {$stock}
+      stock = ?
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $stock,   PDO::PARAM_INT);
+  // $statement->bindValue(2, $item_id, PDO::PARAM_INT);
+
+  return execute_query($db, $sql,[$stock, $item_id]);
 }
 
 function destroy_item($db, $item_id){
@@ -136,11 +165,16 @@ function delete_item($db, $item_id){
     DELETE FROM
       items
     WHERE
-      item_id = {$item_id}
+      item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $item_id, PDO::PARAM_INT);
+
+  return execute_query($db, $sql,[$item_id]);
 }
 
 
