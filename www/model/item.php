@@ -19,12 +19,12 @@ function get_item($db, $item_id){
       item_id = ?
   ";
 
-  // SQL文を実行する準備
-  $statement = $db->prepare($sql);
-  // SQL文のプレースホルダに値をバインド
-  $statement->bindValue(1, $item_id, PDO::PARAM_INT);
-  // SQLを実行
-  $statement->execute($params);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $item_id, PDO::PARAM_INT);
+  // // SQLを実行
+  // $statement->execute($params);
 
   return fetch_query($db, $sql, [$item_id]);
 
@@ -122,7 +122,7 @@ function update_item_status($db, $item_id, $status){
   // $statement->bindValue(1, $status,   PDO::PARAM_INT);
   // $statement->bindValue(2, $item_id,  PDO::PARAM_INT);
 
-  return execute_query($db, $sql,[$item_id, $status]);
+  return execute_query($db, $sql,[$status, $item_id]);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -142,7 +142,7 @@ function update_item_stock($db, $item_id, $stock){
   // $statement->bindValue(1, $stock,   PDO::PARAM_INT);
   // $statement->bindValue(2, $item_id, PDO::PARAM_INT);
 
-  return execute_query($db, $sql,[$item_id, $stock]);
+  return execute_query($db, $sql,[$stock, $item_id]);
 }
 
 function destroy_item($db, $item_id){
