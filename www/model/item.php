@@ -24,9 +24,9 @@ function get_item($db, $item_id){
   // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $item_id, PDO::PARAM_INT);
   // SQLを実行
-  $statement->execute();
-  
-  return $statement->fetch();
+  $statement->execute($params);
+
+  return fetch_query($db, $sql, [$item_id]);
 
 }
 
@@ -102,7 +102,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
   $statement->bindValue(4, $filename,     PDO::PARAM_STR);
   $statement->bindValue(5, $status_value, PDO::PARAM_INT);
   // SQLを実行
-  return $statement->execute($params);
+  return execute_query($db, $sql,[$name], [$price], [$stock], [$filename], [$status_value]);
 }
 
 function update_item_status($db, $item_id, $status){
@@ -122,7 +122,7 @@ function update_item_status($db, $item_id, $status){
   $statement->bindValue(1, $status,   PDO::PARAM_INT);
   $statement->bindValue(2, $item_id,  PDO::PARAM_INT);
 
-  return $statement->execute($params);
+  return execute_query($db, $sql,[$item_id], [$status]);
 }
 
 function update_item_stock($db, $item_id, $stock){
@@ -142,7 +142,7 @@ function update_item_stock($db, $item_id, $stock){
   $statement->bindValue(1, $stock,   PDO::PARAM_INT);
   $statement->bindValue(2, $item_id, PDO::PARAM_INT);
 
-  return $statement->execute($params);
+  return execute_query($db, $sql,[$item_id], [$stock]);
 }
 
 function destroy_item($db, $item_id){
@@ -174,7 +174,7 @@ function delete_item($db, $item_id){
   // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $item_id, PDO::PARAM_INT);
 
-  return $statement->execute($params);
+  return execute_query($db, $sql,[$item_id]);
 }
 
 

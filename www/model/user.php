@@ -21,9 +21,9 @@ function get_user($db, $user_id){
   // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $user_id, PDO::PARAM_INT);
   // SQLを実行
-  $statement->execute();
+  $statement->execute($params);
 
-  return $statement->fetch();
+  return fetch_query($db, $sql, [$user_id]);
 
 }
 
@@ -46,9 +46,9 @@ function get_user_by_name($db, $name){
   // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $name, PDO::PARAM_STR);
   // SQLを実行
-  $statement->execute();
+  $statement->execute($params);
 
-  return $statement->fetch();
+  return fetch_query($db, $sql, [$name]);
 
 }
 
@@ -129,5 +129,5 @@ function insert_user($db, $name, $password){
   $statement->bindValue(1, $name,     PDO::PARAM_STR);
   $statement->bindValue(2, $password, PDO::PARAM_INT);
 
-  return $statement->execute($params);
+  return execute_query($db, $sql,[$name], [$password]);
 }

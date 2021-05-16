@@ -25,12 +25,12 @@ function get_user_carts($db, $user_id){
   ";
   // SQL文を実行する準備
   $statement = $db->prepare($sql);
-  // // SQL文のプレースホルダに値をバインド
+  // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $user_id, PDO::PARAM_INT);
   // SQLを実行
   $statement->execute($params);
   
-  return $statement->fetchAll();
+  return fetch_all_query($db, $sql, [$user_id]);
 }
 
 function get_user_cart($db, $user_id, $item_id){
@@ -63,10 +63,9 @@ function get_user_cart($db, $user_id, $item_id){
   $statement->bindValue(1, $user_id, PDO::PARAM_INT);
   $statement->bindValue(2, $item_id, PDO::PARAM_INT);
   // SQLを実行
-  $statement->execute();
+  $statement->execute($params);
   
-  return $statement->fetch();
-
+  return fetch_query($db, $sql, [$user_id], [$item_id]);
 }
 
 function add_cart($db, $user_id, $item_id ) {
@@ -94,10 +93,8 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
   $statement->bindValue(1, $item_id, PDO::PARAM_INT);
   $statement->bindValue(2, $user_id, PDO::PARAM_INT);
   $statement->bindValue(3, $amount,  PDO::PARAM_INT);
-  // // SQLを実行
-  // $statement->execute();
 
-  return $statement->execute($params);
+  return execute_query($db, $sql,[$item_id], [$user_id], [$amount]);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
@@ -116,7 +113,7 @@ function update_cart_amount($db, $cart_id, $amount){
   $statement->bindValue(1, $amount,   PDO::PARAM_INT);
   $statement->bindValue(2, $cart_id,  PDO::PARAM_INT);
 
-  return $statement->execute($params);
+  return execute_query($db, $sql, [$cart_id], [$amount]);
 }
 
 function delete_cart($db, $cart_id){
@@ -131,10 +128,8 @@ function delete_cart($db, $cart_id){
   $statement = $db->prepare($sql);
   // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $cart_id, PDO::PARAM_INT);
-  // // SQLを実行
-  // $statement->execute();
 
-  return $statement->execute($params);
+  return execute_query($db, $sql, [$cart_id]);
 }
 
 function purchase_carts($db, $carts){
@@ -166,10 +161,8 @@ function delete_user_carts($db, $user_id){
   $statement = $db->prepare($sql);
   // SQL文のプレースホルダに値をバインド
   $statement->bindValue(1, $user_id, PDO::PARAM_INT);
-  // SQLを実行
-  // $statement->execute();
 
-  return $statement->execute($params);
+  return execute_query($db, $sql, [$user_id]);
 }
 
 
