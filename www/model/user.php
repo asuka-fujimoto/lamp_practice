@@ -16,12 +16,12 @@ function get_user($db, $user_id){
     LIMIT 1
   ";
 
-  // SQL文を実行する準備
-  $statement = $db->prepare($sql);
-  // SQL文のプレースホルダに値をバインド
-  $statement->bindValue(1, $user_id, PDO::PARAM_INT);
-  // SQLを実行
-  $statement->execute($params);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $user_id, PDO::PARAM_INT);
+  // // SQLを実行
+  // $statement->execute($params);
 
   return fetch_query($db, $sql, [$user_id]);
 
@@ -41,12 +41,12 @@ function get_user_by_name($db, $name){
     LIMIT 1
   ";
 
-  // SQL文を実行する準備
-  $statement = $db->prepare($sql);
-  // SQL文のプレースホルダに値をバインド
-  $statement->bindValue(1, $name, PDO::PARAM_STR);
-  // SQLを実行
-  $statement->execute($params);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $name, PDO::PARAM_STR);
+  // // SQLを実行
+  // $statement->execute($params);
 
   return fetch_query($db, $sql, [$name]);
 
@@ -123,11 +123,11 @@ function insert_user($db, $name, $password){
     VALUES (?, ?);
   ";
 
-  // SQL文を実行する準備
-  $statement = $db->prepare($sql);
-  // SQL文のプレースホルダに値をバインド
-  $statement->bindValue(1, $name,     PDO::PARAM_STR);
-  $statement->bindValue(2, $password, PDO::PARAM_INT);
+  // // SQL文を実行する準備
+  // $statement = $db->prepare($sql);
+  // // SQL文のプレースホルダに値をバインド
+  // $statement->bindValue(1, $name,     PDO::PARAM_STR);
+  // $statement->bindValue(2, $password, PDO::PARAM_INT);
 
-  return execute_query($db, $sql,[$name], [$password]);
+  return execute_query($db, $sql, [$name, $password]);
 }
