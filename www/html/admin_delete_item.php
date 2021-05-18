@@ -28,7 +28,7 @@ if(is_valid_csrf_token($token)){
     set_error('商品削除に失敗しました。');
   }
 }else{
-  set_error('不正な操作が行われました。');
+  set_error('不正な操作が行われました。c');
 }
 
 

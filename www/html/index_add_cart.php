@@ -17,7 +17,7 @@ $user = get_login_user($db);
 
 $item_id = get_post('item_id');
 
-if(is_valid_csrf_token($token)){
+ if(is_valid_csrf_token($token) === false){
 
   if(add_cart($db,$user['user_id'], $item_id)){
     set_message('カートに商品を追加しました。');
@@ -25,7 +25,7 @@ if(is_valid_csrf_token($token)){
     set_error('カートの更新に失敗しました。');
   }
 }else{
-  set_error('不正な操作が行われました。');
+  set_error('不正な操作が行われました。h');
 }
 
 redirect_to(HOME_URL);
