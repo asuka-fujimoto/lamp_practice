@@ -14,9 +14,9 @@ $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
 
 $db = get_db_connect();
+$token = get_post('token');
 
-
-if(is_valid_csrf_token($token) === false){
+if(is_valid_csrf_token($token) === true){
 
   try{
     $result = regist_user($db, $name, $password, $password_confirmation);
@@ -32,6 +32,7 @@ if(is_valid_csrf_token($token) === false){
   set_message('ユーザー登録が完了しました。');
   login_as($db, $name, $password);
 }else{
-  set_error('不正な操作が行われました。j');
+  set_error('不正な操作が行われました。');
+  redirect_to(SIGNUP_URL);
 }
 redirect_to(HOME_URL);

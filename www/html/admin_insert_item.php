@@ -25,7 +25,7 @@ $stock = get_post('stock');
 $token = get_post('token');
 $image = get_file('image');
 
-if(is_valid_csrf_token($token)){
+if(is_valid_csrf_token($token) === true){
   
   if(regist_item($db, $name, $price, $stock, $status, $image)){
     set_message('商品を登録しました。');
