@@ -177,6 +177,79 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql,[$item_id]);
 }
 
+//購入履歴を取得する関数
+function get_histories($db, $user){
+  $params = array();
+  
+  //購入履歴のデータ取り出す
+  //購入明細の値段と個数から合計金額を計算
+  //JOINで履歴と明細のテーブル結合
+  $sql = '
+    SELECT
+      histories.order_id,
+      histories.user_id,
+      histories.created,
+      SUM(details.price * details.amount) AS total_price
+      FROM
+      histories
+    JOIN
+      details
+    ON
+      details.order_id = histories.order_id
+  ';
+    //現在ログイン中の一般ユーザー(type2)の購入履歴を表示する
+    if($user['type'] === USER_TYPE_NORMAL){
+      //取り出す条件
+      $sql .= '
+        WHERE
+          histories.user_id = ?
+      '; 
+// $params=Array ( [0] => 1 ) $user=Array ( [user_id] => 1 [name] => sampleuser [password] => password [type] => 2 )
+      $params[] = $user['user_id'];
+    // print_r($params);
+    }
+    //注文番号のグループ化を行う
+    $sql .= '
+      GROUP BY
+        order_id
+    ';
+
+    return fetch_all_query($db, $sql, $params);
+}
+
+//購入明細を取得する関数
+function get_details($db, $order_id, $user_id = 0){
+  //注文番号取得
+  $params = array($order_id);
+
+  $sql = "
+    SELECT
+      details.order_id,
+      items.name,
+      details.price,
+      details.amount,
+      details.price * details.amount AS small_price
+    FROM
+      details
+    JOIN
+      items
+    ON
+      details.item_id = items.item_id
+    WHERE
+      details.order_id = ?
+  ";
+//existsを使い副問い合わせを行う
+  if($user_id !== 0){
+    $sql .= '
+      AND
+        exists( SELECT * FROM histories WHERE order_id=? AND user_id = ?)
+    ';
+    $params[] = $order_id;
+    $params[] = $user_id;
+  }
+
+  return fetch_all_query($db, $sql, $params);
+}
 
 // 非DB
 
