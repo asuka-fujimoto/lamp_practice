@@ -213,7 +213,7 @@ function get_histories($db, $user){
       GROUP BY
         histories.order_id
       ORDER BY
-        SUM(histories.order_id) DESC
+        (histories.order_id) DESC
     ';
 
     return fetch_all_query($db, $sql, $params);
