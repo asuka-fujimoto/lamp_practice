@@ -208,10 +208,12 @@ function get_histories($db, $user){
       $params[] = $user['user_id'];
     // print_r($params);
     }
-    //注文番号のグループ化を行う
+    //注文番号のグループ化と降順でソートする
     $sql .= '
       GROUP BY
-        order_id
+        histories.order_id
+      ORDER BY
+        SUM(histories.order_id) DESC
     ';
 
     return fetch_all_query($db, $sql, $params);

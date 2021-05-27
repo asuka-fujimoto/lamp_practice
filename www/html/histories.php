@@ -18,6 +18,6 @@ $token = get_csrf_token();
 
 $items = get_histories($db, $user);
 //ソート順は新しいものが上にくるようにする
-$items = array_reverse($items);
+// $items = array_reverse($items);
 
 include_once VIEW_PATH . '/histories_view.php';

@@ -16,9 +16,9 @@
       <p>該当する明細はありません</p>
     <?php } else { ?>
 
-    <p>注文番号：<?php print $_POST['order_id'];?></p>
-    <p>購入日時：<?php print $_POST['created'];?></p>
-    <p>合計金額：<?php print $_POST['total_price'];?>円</p>
+    <p>注文番号：<?php print get_post('order_id');?></p>
+    <p>購入日時：<?php print get_post('created');?></p>
+    <p>合計金額：<?php print get_post('total_price');?>円</p>
     <?php } ?>
     
     <table class="table table-bordered">
