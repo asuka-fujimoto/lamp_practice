@@ -202,7 +202,7 @@ function get_histories($db, $user){
       //取り出す条件
       $sql .= '
         WHERE
-          histories.user_id = ?
+        histories.user_id = ?
       '; 
 // $params=Array ( [0] => 1 ) $user=Array ( [user_id] => 1 [name] => sampleuser [password] => password [type] => 2 )
       $params[] = $user['user_id'];
@@ -213,7 +213,7 @@ function get_histories($db, $user){
       GROUP BY
         histories.order_id
       ORDER BY
-        (histories.order_id) DESC
+      histories.order_id DESC
     ';
 
     return fetch_all_query($db, $sql, $params);
@@ -230,6 +230,7 @@ function get_details($db, $order_id, $user_id = 0){
       items.name,
       details.price,
       details.amount,
+      details.created,
       details.price * details.amount AS small_price
     FROM
       details
@@ -244,7 +245,7 @@ function get_details($db, $order_id, $user_id = 0){
   if($user_id !== 0){
     $sql .= '
       AND
-        exists( SELECT * FROM histories WHERE order_id=? AND user_id = ?)
+        exists( SELECT * FROM histories WHERE order_id= ? AND user_id = ?)
     ';
     $params[] = $order_id;
     $params[] = $user_id;

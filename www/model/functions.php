@@ -30,14 +30,14 @@ function get_file($name){
   };
   return array();
 }
-
+//セッションの取得
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
   };
   return '';
 }
-
+//セッションの保存
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
