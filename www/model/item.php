@@ -197,14 +197,14 @@ function get_histories($db, $user){
     ON
       details.order_id = histories.order_id
   ';
-    //現在ログイン中の一般ユーザー(type2)の購入履歴を表示する
+  //現在ログイン中の一般ユーザー(type2)の購入履歴を表示する
     if($user['type'] === USER_TYPE_NORMAL){
       //取り出す条件
       $sql .= '
         WHERE
         histories.user_id = ?
       '; 
-// $params=Array ( [0] => 1 ) $user=Array ( [user_id] => 1 [name] => sampleuser [password] => password [type] => 2 )
+    // $params=Array ( [0] => 1 ) $user=Array ( [user_id] => 1 [name] => sampleuser [password] => password [type] => 2 )
       $params[] = $user['user_id'];
     // print_r($params);
     }
@@ -253,7 +253,43 @@ function get_details($db, $order_id, $user_id = 0){
 
   return fetch_all_query($db, $sql, $params);
 }
+function get_histories_data($db, $user, $order_id, $user_id){
+  $params = array();
+  
+  $sql = '
+    SELECT
+      histories.order_id,
+      histories.user_id,
+      histories.created,
+      SUM(details.price * details.amount) AS total_price
+      FROM
+      histories
+    JOIN
+      details
+    ON
+      details.order_id = histories.order_id
+  ';
+  $params = array($order_id);
+  $sql .= '
+  WHERE
+    histories.order_id = ?
+  ';
+  if($user['type'] === USER_TYPE_NORMAL){
+    // print_r($user);
+    $sql .= '
+    AND
+      histories.user_id = ?
+    '; 
+    $params[] = $user['user_id'];
 
+  // print_r($params);
+  }
+  $sql .= '
+    GROUP BY
+      histories.order_id
+  ';
+    return fetch_all_query($db, $sql, $params, [$order_id, $user_id]);
+}
 // 非DB
 
 function is_open($item){

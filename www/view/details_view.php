@@ -15,12 +15,12 @@
     <?php if(count($items) === 0){ ?>
       <p>該当する明細はありません</p>
     <?php } else { ?>
-      <?php foreach($items as $item){ ?>
-        <p>注文番号：<?php print h($item['order_id']);?></p>
-        <p>購入日時：<?php print h($item['created']);?></p>
-        <p>合計金額：<?php print h($item['small_price']);?>円</p>
+      <?php foreach($histories_data as $data){ ?>
+        <p>注文番号：<?php print h($data['order_id']);?></p>
+        <p>購入日時：<?php print h($data['created']);?></p>
+        <p>合計金額：<?php print h($data['total_price']);?>円</p>
+      <?php } ?>
     <?php } ?>
-    
     <table class="table table-bordered">
     <thead class="thead-light">
         <tr>
@@ -31,7 +31,7 @@
         </tr>
     </thead>
     <tbody>
-        
+      <?php foreach($items as $item){ ?>
         <tr>
         <td><?php print h($item['name']) ;?></td>
         <td><?php print h($item['price']) ;?>円</td>

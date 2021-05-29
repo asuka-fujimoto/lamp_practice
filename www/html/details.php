@@ -20,6 +20,10 @@ $token = get_post('token');
 //該当の注文番号データ取得
 $order_id = get_post('order_id');
 
+//明細画面の履歴情報
+$histories_data = get_histories_data($db, $user,$order_id, $user_id);
+// print_r($histories_data);
+
 //管理者かどうかを判定
 // function is_admin($user){
 //   return $user['type'] === USER_TYPE_ADMIN;
@@ -35,5 +39,6 @@ if(is_valid_csrf_token($token) === true){
   }
 }else{
   set_error('不正な操作が行われました。');
+  redirect_to(HISTORIES_URL);
 }
 include_once VIEW_PATH . '/details_view.php';
