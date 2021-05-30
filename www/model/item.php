@@ -253,8 +253,9 @@ function get_details($db, $order_id, $user_id = 0){
 
   return fetch_all_query($db, $sql, $params);
 }
-function get_histories_data($db, $user, $order_id, $user_id){
-  $params = array();
+function get_histories_data($db, $user, $order_id){
+  $params = array($order_id);
+  // $params = array();
   
   $sql = '
     SELECT
@@ -269,7 +270,6 @@ function get_histories_data($db, $user, $order_id, $user_id){
     ON
       details.order_id = histories.order_id
   ';
-  $params = array($order_id);
   $sql .= '
   WHERE
     histories.order_id = ?
@@ -288,7 +288,7 @@ function get_histories_data($db, $user, $order_id, $user_id){
     GROUP BY
       histories.order_id
   ';
-    return fetch_all_query($db, $sql, $params, [$order_id, $user_id]);
+    return fetch_all_query($db, $sql, $params);
 }
 // 非DB
 

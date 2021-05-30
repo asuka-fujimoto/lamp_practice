@@ -21,7 +21,7 @@ $token = get_post('token');
 $order_id = get_post('order_id');
 
 //明細画面の履歴情報
-$histories_data = get_histories_data($db, $user,$order_id, $user_id);
+$histories_data = get_histories_data($db, $user,$order_id);
 // print_r($histories_data);
 
 //管理者かどうかを判定
