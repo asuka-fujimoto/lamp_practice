@@ -11,9 +11,13 @@ if(is_logined() === false){
 }
 
 $db = get_db_connect();
+
 $user = get_login_user($db);
 
 $token = get_csrf_token();
-$items = get_open_items($db);
-// print_r($items);
-include_once VIEW_PATH . 'index_view.php';
+
+$items = get_histories($db, $user);
+//ソート順は新しいものが上にくるようにする
+// $items = array_reverse($items);
+
+include_once VIEW_PATH . '/histories_view.php';

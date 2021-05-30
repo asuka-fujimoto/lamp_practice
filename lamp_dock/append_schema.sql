@@ -65,7 +65,7 @@ ALTER TABLE `details`
 
 --
 -- テーブルのAUTO_INCREMENT `histories`
---
+--（注文番号は購入完了のたびにオートインクリメントで付番される）
 ALTER TABLE `histories`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
