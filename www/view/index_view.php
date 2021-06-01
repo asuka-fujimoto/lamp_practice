@@ -43,6 +43,30 @@
       </div>
     </div>
   </div>
-  
+  <div class="container" >
+    <h1>人気商品ランキング</h1>
+      <table class="table table-bordered">
+        <tr class="card-header text-center" >
+          <th>第一位</th>
+          <th>第二位</th>
+          <th>第三位</th>
+        </tr>
+        <tr>
+          <?php foreach($ranks as $rank){ ?>
+          <td class="text-center">
+            <?php print(h($rank['name'])); ?>
+          </td>
+          <?php }; ?>
+        </tr>
+        <tr>
+          <?php foreach($ranks as $rank){ ?>
+          <td>
+            <img src="<?php print(IMAGE_PATH . h($rank['image'])); ?>" class="item_image">
+          </td>
+          <?php }; ?>
+        </tr>
+      </table>
+  </div>
+
 </body>
 </html>

@@ -290,6 +290,31 @@ function get_histories_data($db, $user, $order_id){
   ';
     return fetch_all_query($db, $sql, $params);
 }
+//商品の購入数の情報取得
+function item_ranking($db){
+  $sql = "
+  SELECT 
+    details.item_id, 
+    items.name,
+    items.image,
+    SUM(details.amount) AS total_amount
+  FROM
+    details
+  JOIN
+    items
+  ON
+    details.item_id = items.item_id
+  GROUP BY
+    details.item_id
+  ORDER BY 
+    SUM(details.amount) DESC
+  LIMIT
+    3
+  ";
+
+  return fetch_all_query($db,$sql);
+}
+
 // 非DB
 
 function is_open($item){
